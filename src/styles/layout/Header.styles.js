@@ -4,10 +4,10 @@ import { theme } from "../../constants";
 
 const HeaderElement = styled.header`
     width: 100%;
-    height: 6rem;
+    height: 5rem;
     display:flex;
     justify-content: space-around;
-    box-shadow:0 0px 5px 0px black;
+    box-shadow:0 0px 13px 0px rgba(0,0,0,.3);
 
 `;
 
@@ -17,7 +17,7 @@ const LogoContainer = styled.div`
 
 `;
 const Logo = styled.img`
-    width:4.5rem;
+    width:4rem;
 `;
 const MainTitle = styled.h1`
     margin-left:1rem;
@@ -60,7 +60,7 @@ const ProfileInfo = styled.div`
     right:-6rem;
     background-color: #f9f9f9;
     padding:2rem 3rem;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,.3);
     border-radius:.4rem;
     z-index: 1;
     ${Profile}:hover & {

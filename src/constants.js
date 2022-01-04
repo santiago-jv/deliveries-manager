@@ -7,7 +7,7 @@ const activeStyles = {
     color:"#ffa460"
 }
 const theme = {
-    primaryTextColor:"#262626",
+    primaryTextColor:"#333",
     secondaryColor:"#ffa460"
 }
 
