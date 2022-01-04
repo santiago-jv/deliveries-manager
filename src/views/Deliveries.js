@@ -6,7 +6,7 @@ import DeliveriesTable from '../layout/DeliveriesTable'
 import Header from '../layout/Header'
 import { getMessengers } from '../services/http-messengers'
 import { ButtonContainer } from '../styles/components/ActionButton.styles'
-
+import {toast} from "react-toastify"
 const Deliveries = () => {
     const history = useHistory()
     const {state} = useContext(AppContext)
@@ -17,7 +17,7 @@ const Deliveries = () => {
             history.push('/deliveries/create');
         }
         else{
-            alert("Debes crear un mensajero antes")
+            toast.warn("Debes crear un mensajero antes")
             history.push('/messengers/create');
 
         }

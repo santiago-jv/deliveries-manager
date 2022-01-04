@@ -7,7 +7,8 @@ import ContextProvider  from './context/appContext';
 import Messengers from './views/Messengers';
 import CreateMessenger from './views/CreateMessenger';
 import CreateDelivery from './views/CreateDelivery';
-
+import {ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <ContextProvider>
@@ -23,6 +24,7 @@ function App() {
           <Route exact sensitive path="/" component={LogIn} />
           </Switch>
       </Router>
+      <ToastContainer position='bottom-right'></ToastContainer>
     </ContextProvider>
   );
 }

@@ -16,6 +16,7 @@ import {
   TextError,
   
 } from "../styles/layout/Form.styles.js";
+import {toast}from "react-toastify"
 
 const FormLogIn = () => {
   const [error, setError] = useState(null)
@@ -39,7 +40,7 @@ const FormLogIn = () => {
           const response = await login(formLogIn)
           sessionStorage.setItem('user',  JSON.stringify(response.data))
         
-          alert("Bienvenido " + response.data.username)
+          toast.success("Bienvenido " + response.data.username)
           dispatch({type:"START_SESSION",value:response.data})
           history.push('/deliveries')
         }

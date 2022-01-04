@@ -5,6 +5,7 @@ import { createMessenger, deleteMessenger, getMessenger, updateMessenger } from 
 import { ButtonContainer } from '../styles/components/ActionButton.styles';
 import {  FieldContainer, FormElement, FormField, Label ,FieldsInline,Container, Title, Check,CheckContainer} from '../styles/layout/Form.styles';
 import Header from './Header';
+import {toast}from "react-toastify"
 
 const FormMessengers = (props) => {
     const history = useHistory()
@@ -45,7 +46,7 @@ const FormMessengers = (props) => {
         if(!id){
             try {
                 response = await createMessenger(formData)
-                alert(`El mensajero ${response.data.name} ha sido creado.`)
+                toast.success(`El mensajero ${response.data.name} ha sido creado.`)
                 goToBack()
                 
             } catch (error) {
@@ -55,7 +56,7 @@ const FormMessengers = (props) => {
         else {
             try {
                 response = await updateMessenger(id,formData)
-                alert(`El mensajero ${response.data.name} ha sido actualizado.`)
+                toast.success(`El mensajero ${response.data.name} ha sido actualizado.`)
                 goToBack()
             } catch (error) {
                 console.log(error);
@@ -69,7 +70,7 @@ const FormMessengers = (props) => {
         if(responseMessenger.data.deliveries.length === 0) {
             try {
             await deleteMessenger(id)
-            alert(`El mensajero ${responseMessenger.data.name} ha sido Eliminado.`)
+            toast.success(`El mensajero ${responseMessenger.data.name} ha sido Eliminado.`)
             
             goToBack()
 
@@ -77,7 +78,7 @@ const FormMessengers = (props) => {
                console.log(error)
             }
         }
-        else alert("El mensajero tiene Domicilios por entregar.")
+        else toast.warn("El mensajero tiene Domicilios por entregar.")
 
     }
     

@@ -15,7 +15,7 @@ import ActionButton from "../components/ActionButton.js";
 import { signUp } from "../services/http-authentication.js";
 import { useHistory } from "react-router-dom";
 import { validateDataInSignUp } from "../validations"
-
+import {toast}from "react-toastify"
 const FormSignUp = () => {
   const [error, setError] = useState(null)
   const [formSignUp , setFormSignUp  ] = useState({})
@@ -39,7 +39,8 @@ const FormSignUp = () => {
     try {
       if(validateDataInSignUp({...credentials,repeatedPassword:formSignUp.repeatedPassword})){
         const response = await  signUp(credentials)
-        alert(response.data.message)
+        
+        toast.success(response.data.message)
         history.push('/')
       }
       else {

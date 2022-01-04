@@ -16,7 +16,9 @@ const MessengerItem = ({messenger}) => {
         <Row>
                         
             <Column>{messenger.id}</Column>
-            <Column><Image width={"3.5rem"} height={"3rem"} src={messenger.gender==="M"?men:women}></Image></Column>
+            <Column>
+                <Image width={"3.5rem"} height={"3rem"} src={messenger.gender==="M"?men:women}/>
+            </Column>
             <Column>{messenger.name}</Column>
             <Column>{messenger.identificationCard}</Column>
             <Column>{messenger.numberCell}</Column>

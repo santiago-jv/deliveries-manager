@@ -11,6 +11,7 @@ import { createReceiver, getReceiverWithDelivery, updateReceiver } from '../serv
 import { ButtonContainer } from '../styles/components/ActionButton.styles';
 import {  FieldContainer, FormElement, FormField, Label ,FieldsInline,Container, TextArea, SubTitle, Title, Select, Option} from '../styles/layout/Form.styles';
 import Header from './Header';
+import {toast}from "react-toastify"
 
 const FormDeliveries = (props) => {
     const history = useHistory()
@@ -109,7 +110,7 @@ const FormDeliveries = (props) => {
                 const receiver = responseReceiver.data;
 
                 await createDelivery(idMessenger, petitioner.id, receiver.id, deliveryData)
-                alert("Domicilio creado.")
+                toast.success("Domicilio creado.")
                 goToBack()
             }
             catch(error){
@@ -124,7 +125,7 @@ const FormDeliveries = (props) => {
                 await updatePetitioner(petitionerData.id, petitionerData)
                 await updateReceiver(receiverData.id,receiverData)
                 await updateDelivery(id,messengerReference.current.value, deliveryData)
-                alert("Domicilio actualizado.")
+                toast.success("Domicilio actualizado.")
                 goToBack()
             }
             catch(error){
@@ -136,7 +137,7 @@ const FormDeliveries = (props) => {
     const removeDelivery = async ()=> {
         try {
             await deleteDelivery(id)
-            alert("Domicilio eliminado")
+            toast.success("Domicilio eliminado")
             goToBack()
             
         } catch (error) {
