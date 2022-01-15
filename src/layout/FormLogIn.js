@@ -38,10 +38,10 @@ const FormLogIn = () => {
       try {
         if(mounted){
           const response = await login(formLogIn)
-          sessionStorage.setItem('user',  JSON.stringify(response.data))
-        
-          toast.success("Bienvenido " + response.data.username)
-          dispatch({type:"START_SESSION",value:response.data})
+          localStorage.setItem('token',  response.data.token)
+          console.log(response.data);
+          toast.success("Bienvenido " + response.data.admin.name)
+          dispatch({type:"START_SESSION",value:response.data.admin})
           history.push('/deliveries')
         }
 
@@ -68,10 +68,10 @@ const FormLogIn = () => {
       >
 
         <FieldContainer>
-          <Label>Nombre de usuario</Label>
-          <FormField placeholder="Ingrese su nombre de usuario" required
+          <Label>Correo electrónico</Label>
+          <FormField placeholder="Ingrese su correo electrónico" required
             onChange={handleInput}
-            name="username"
+            name="email"
             type="text">
           </FormField>
         </FieldContainer>

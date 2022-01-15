@@ -1,9 +1,9 @@
 
 const authHeader = () => {
-  const user =  JSON.parse(sessionStorage.getItem('user'))
-  if(user && user.accessToken) {
+  const token = localStorage.getItem('token')
+  if(token) {
       return {
-          Authorization: "Bearer " + (user.accessToken)
+          Authorization: "Bearer " + token
       }
   }
   return {

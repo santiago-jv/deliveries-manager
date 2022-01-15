@@ -6,7 +6,7 @@ const startSession = (state,user)=> {
     }
 }
 const closeSession = (state) => {
-    sessionStorage.removeItem('user')
+    localStorage.removeItem('token')
     return {
         ...state,
         authorized:false, user:null

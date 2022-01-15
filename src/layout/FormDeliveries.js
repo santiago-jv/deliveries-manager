@@ -3,11 +3,7 @@ import { useHistory } from 'react-router-dom';
 import ActionButton from '../components/ActionButton';
 import { hours } from '../constants';
 import { createDelivery, deleteDelivery, getDelivery, updateDelivery } from '../services/http-deliveries';
-import { updatePetitioner } from '../services/http-petitioners';
-import { getMessengers, getMessengerWithDelivery } from '../services/http-messengers';
-
-import { createPetitioner, getPetitionerWithDelivery } from '../services/http-petitioners';
-import { createReceiver, getReceiverWithDelivery, updateReceiver } from '../services/http-receivers';
+import { getMessengers } from '../services/http-messengers';
 import { ButtonContainer } from '../styles/components/ActionButton.styles';
 import {  FieldContainer, FormElement, FormField, Label ,FieldsInline,Container, TextArea, SubTitle, Title, Select, Option} from '../styles/layout/Form.styles';
 import Header from './Header';
@@ -15,12 +11,13 @@ import {toast}from "react-toastify"
 
 const FormDeliveries = (props) => {
     const history = useHistory()
-    const id =  props.id 
+    let id =  props.id 
+
+
     const messengerReference = useRef()
     const [messengers, setMessengers] = useState([])
-/*     const [messengerSeleted, setMessengerSeleted] = useState(null)
- */    const [deliveryData, setDeliveryData] = useState({
-        state:false,
+    const [deliveryData, setDeliveryData] = useState({
+        isComplete:false,
         description:"",
         pickUpTime:"07:00",
         deliveryTime:"07:00",
@@ -42,12 +39,15 @@ const FormDeliveries = (props) => {
         async () =>{
             try {
                 const responseDelivery = await  getDelivery(id)
+
+                console.log(responseDelivery.data);
                 setDeliveryData(responseDelivery.data)
-                const responsePetitioner = await  getPetitionerWithDelivery(id)
-                setPetitionerData(responsePetitioner.data)
-                const responseReceiver= await  getReceiverWithDelivery(id)
-                setReceiverData(responseReceiver.data)
-           
+                setPetitionerData(responseDelivery.data.petitioner)
+                setReceiverData(responseDelivery.data.receiver)
+                const responseMessengers = await getMessengers();
+                setMessengers(responseMessengers.data)
+
+                messengerReference.current.defaultValue = responseDelivery.data.messenger
             } catch (error) {
                console.log(error)
             }
@@ -59,27 +59,24 @@ const FormDeliveries = (props) => {
         try {
             const response = await  getMessengers()
             setMessengers(response.data)
+            for (const messengerItem of response.data) {
+                if(messengerItem.id === messengerReference.current.value){
+                    messengerReference.current.defaultValue = messengerItem.name
+                }
+            }
        
         } catch (error) {
            console.log(error)
         }
     }
-    const retrieveMessengerWithDelivery =  useCallback(
-        async ()=> {
-            const response = await getMessengerWithDelivery(id)
-            messengerReference.current.value = response.data.id
-    
-        },
-        [id],
-    )
+  
     useEffect(() => {
         retrieveMessengers()
         if(id) {
             retrieveDelivery()
-            retrieveMessengerWithDelivery()
         }
 
-    }, [id,retrieveDelivery,retrieveMessengerWithDelivery])
+    }, [id,retrieveDelivery])
     const handleInputsPetitioner = (event)=>{
         setPetitionerData({
             ...petitionerData,
@@ -104,12 +101,9 @@ const FormDeliveries = (props) => {
 
             let idMessenger=messengerReference.current.value;
             try{
-                const responsePetitioner = await createPetitioner(petitionerData)
-                const petitioner = responsePetitioner.data;
-                const responseReceiver = await createReceiver(receiverData)
-                const receiver = responseReceiver.data;
-
-                await createDelivery(idMessenger, petitioner.id, receiver.id, deliveryData)
+               
+              console.log( {...deliveryData, petitioner:petitionerData,receiver:receiverData});
+                await createDelivery(idMessenger, {...deliveryData, petitioner:petitionerData,receiver:receiverData})
                 toast.success("Domicilio creado.")
                 goToBack()
             }
@@ -122,9 +116,16 @@ const FormDeliveries = (props) => {
         else {
 
             try{
-                await updatePetitioner(petitionerData.id, petitionerData)
-                await updateReceiver(receiverData.id,receiverData)
-                await updateDelivery(id,messengerReference.current.value, deliveryData)
+                console.log(   messengerReference.current.value);
+
+               const delivery = {
+                ...deliveryData,
+                petitioner:petitionerData,
+                receiver:receiverData,
+                messenger:messengerReference.current.value
+               }
+                const response = await updateDelivery(id,delivery)
+                console.log(response.data);
                 toast.success("Domicilio actualizado.")
                 goToBack()
             }

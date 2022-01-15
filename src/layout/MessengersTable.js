@@ -69,7 +69,7 @@ const MessengersTable = () => {
                 </Tbody>
             
             </Table>
-                <ReactPaginate
+            {messengers.length > 0 &&  <ReactPaginate
                     pageCount={Math.ceil(quantity/messengersPerPage)
                     }
                     onPageChange={handlePageClick}
@@ -85,6 +85,7 @@ const MessengersTable = () => {
                     previousLinkClassName={'previousPage'}
                     containerClassName={'pageContainer'}
                 ></ReactPaginate>
+                }
             </>
             :
             <>

@@ -34,7 +34,7 @@ const Header = () => {
           <Image width={"3rem"} height={"3rem"} src={user}></Image>
             <ProfileInfo>
               <Image width={"4rem"} height={"4rem"} src={user}></Image>
-              <Text margin={"1rem 0 .3rem  0"} weight={"bold"} size={"1.1rem"}>{state.user.username}</Text>
+              <Text margin={"1rem 0 .3rem  0"} weight={"bold"} size={"1.1rem"}>{state.user.name}</Text>
               <Text margin={" 0 0 2rem 0"} weight={"bold"} size={"1.1rem"} >{state.user.email}</Text>
               <ActionButton action={()=>dispatch({type:"CLOSE_SESSION"})} bg={"#ffa460"} icon={"fas fa-sign-out-alt"} text={"Cerrar sesión"}></ActionButton>
             </ProfileInfo>

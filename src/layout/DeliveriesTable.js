@@ -42,10 +42,10 @@ const DeliveriesTable = () => {
             if(filter === "todos") {
                 setDeliveries(responseDeliveries.data)
             }else if(filter === "pendiente") {
-                setDeliveries(responseDeliveries.data.filter(delivery => !delivery.state))
+                setDeliveries(responseDeliveries.data.filter(delivery => !delivery.isComplete))
             }
             else if(filter === "cerrado"){
-                setDeliveries(responseDeliveries.data.filter(delivery => delivery.state))
+                setDeliveries(responseDeliveries.data.filter(delivery => delivery.isComplete))
             }
         } catch (error) {
             console.log(error);
@@ -98,7 +98,7 @@ const DeliveriesTable = () => {
             </Message> 
         }
   
-        <ReactPaginate
+       {deliveries.length > 0 &&  <ReactPaginate
             pageCount={Math.ceil(quantity/deliveriesPerPage)}
             onPageChange={handlePageClick}
             previousLabel={<i className="fas fa-chevron-left"></i>}
@@ -112,7 +112,7 @@ const DeliveriesTable = () => {
             nextClassName={'page'}
             previousLinkClassName={'previousPage'}
             containerClassName={'pageContainer'}
-        ></ReactPaginate>
+        ></ReactPaginate>}
 
         </>
 

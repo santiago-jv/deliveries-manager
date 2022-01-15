@@ -26,8 +26,8 @@ const MoreInformation = ({delivery, petitioner,receiver,messenger}) => {
 
                 <MessengerInformation>
                 <Title>Información del mensajero</Title>
-                <P><strong>Nombre: </strong>{messenger.name}</P>
-                <P><strong>Número de contacto: </strong>{messenger.numberCell}</P>
+                <P><strong>Nombre: </strong>{messenger?.name}</P>
+                <P><strong>Número de contacto: </strong>{messenger?.numberCell}</P>
                 </MessengerInformation>
                 </Info>
  

@@ -30,15 +30,12 @@ const FormSignUp = () => {
   const sendCredentials = async (event)=> {
     setLoading(true)
     event.preventDefault()
-    const credentials = {
-      username:formSignUp.username, 
-      email:formSignUp.email, 
-      password:formSignUp.password,
-      roles:['admin','user']
-    }
+
+
+    
     try {
-      if(validateDataInSignUp({...credentials,repeatedPassword:formSignUp.repeatedPassword})){
-        const response = await  signUp(credentials)
+      if(validateDataInSignUp(formSignUp)){
+        const response = await  signUp(formSignUp)
         
         toast.success(response.data.message)
         history.push('/')
@@ -59,8 +56,8 @@ const FormSignUp = () => {
       <FormElement method="POST" autoComplete='off' onSubmit={sendCredentials}>
 
         <FieldContainer>
-          <Label>Nombre de usuario</Label>
-          <FormField placeholder="Ingrese su nombre de usuario" required name="username" onChange={handleInput} type="text"></FormField>
+          <Label>Nombre</Label>
+          <FormField placeholder="Ingrese su nombre" required name="name" onChange={handleInput} type="text"></FormField>
         </FieldContainer>
 
         <FieldContainer>

@@ -15,7 +15,7 @@ const FormMessengers = (props) => {
         address:"",
         motorcyclePlate:"",
         numberCell:"",
-        identificationCard:"",
+        identificationNumber:"",
         gender:""
     })
 
@@ -119,8 +119,8 @@ const FormMessengers = (props) => {
                 <FieldsInline>
 
                     <FieldContainer>
-                    <Label htmlFor={"identificationCard"}>Cédula</Label>
-                    <FormField defaultValue={formData.identificationCard} pattern={/^[0-9]$/}  width={"200px"} placeholder="Ingrese la cédula" required id={"identificationCard"} name="identificationCard" onChange={handleInput} type="number"></FormField>
+                    <Label htmlFor={"identificationNumber"}>Cédula</Label>
+                    <FormField defaultValue={formData.identificationNumber} pattern={/^[0-9]$/}  width={"200px"} placeholder="Ingrese la cédula" required id={"identificationNumber"} name="identificationNumber" onChange={handleInput} type="number"></FormField>
                     </FieldContainer>
                 
                     <FieldContainer >

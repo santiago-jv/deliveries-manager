@@ -6,7 +6,7 @@ const getMessengers =  () => http.get('messengers',{headers: authHeader()})
 
 const getMessenger=  (id) =>  http.get(`messengers/${id}`,{headers: authHeader()});
 
-const paginateMessengers = (page)=> http.get(`messengers/query?page=${page}&limit=5`,{headers: authHeader()})
+const paginateMessengers = (page)=> http.get(`messengers?offset=${page}&limit=5`,{headers: authHeader()})
 
 const getMessengerWithDelivery=  (id) =>  http.get(`messengers/delivery/${id}`,{headers: authHeader()});
 

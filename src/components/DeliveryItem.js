@@ -3,60 +3,35 @@ import { Column, Row } from '../styles/commons.styles'
 import ActionButton from './ActionButton'
 import { ButtonContainer } from '../styles/components/ActionButton.styles'
 import { useHistory } from 'react-router-dom'
-import {  getPetitionerWithDelivery } from '../services/http-petitioners'
-import {  updateDelivery } from '../services/http-deliveries'
-import { getReceiverWithDelivery } from '../services/http-receivers'
+import {  changeIsCompleteOfDelivery } from '../services/http-deliveries'
 import MoreInformation from './MoreInformation'
 import Modal from './Modal'
-import { getMessengerWithDelivery } from '../services/http-messengers'
+import { getMessenger } from '../services/http-messengers'
 
 const DeliveryItem = ({ delivery}) => {
     const history = useHistory()
-    const [state, setState] = useState(delivery.state)
-    const [petitioner, setPetitioner] = useState({})
-    const [receiver, setReceiver] = useState({})
+    const [isComplete, setIsComplete] = useState(delivery.isComplete)
+    const petitioner = delivery.petitioner
+    const receiver= delivery.receiver
     const [messenger, setMessenger] = useState({})
     const [viewDetails, setViewDetails] = useState(false)
     const [mounted, setMounted] = useState(true)
     const ModalReference = useRef();
 
-    const retrievePetitioner = useCallback(async ()=> {
-        try {
-            const responsePetitioner = await getPetitionerWithDelivery(delivery.id)
-            setPetitioner(responsePetitioner.data)
-        } catch (error) {
-            console.log(error)
-        }
-    },[delivery])
-
-    const retrieveReceiver = useCallback(async ()=> {
-        try {
-            const responseReceiver = await getReceiverWithDelivery(delivery.id)
-            setReceiver(responseReceiver.data)
-        } catch (error) {
-            console.log(error)
-        }
-    },[delivery])
-
-    const retrieveMessenger = useCallback(async ()=> {
-        try {
-            const responseMessenger = await getMessengerWithDelivery(delivery.id)
-            setMessenger(responseMessenger.data)
-        } catch (error) {
-            console.log(error)
-        }
-    },[delivery])
+   const retrieveMessenger = useCallback(async()=>{
+    
+        const response = await getMessenger(delivery.messenger)
+        setMessenger(response.data)
+   },[delivery.messenger])
     
     useEffect(() => {
         if(mounted){
-            retrievePetitioner()
-            retrieveReceiver()
             retrieveMessenger()
         }
         return (()=>{
             setMounted(false)
         })
-    }, [retrievePetitioner,retrieveReceiver,retrieveMessenger,mounted])
+    }, [mounted,retrieveMessenger])
 
     const goToEdit = ()=>{
         history.push(`/deliveries/edit/${delivery.id}`)
@@ -64,10 +39,10 @@ const DeliveryItem = ({ delivery}) => {
 
     const closeDelivery = async ()=>{
     
-        delivery = {...delivery, state:!delivery.state}
-        setState(true)
+
+        setIsComplete(true)
         try {
-            await updateDelivery(delivery.id,messenger.id, delivery)
+            await changeIsCompleteOfDelivery(delivery.id, {isComplete:!delivery.isComplete})
             
         } catch (error) {
             console.log(error)
@@ -86,12 +61,12 @@ const DeliveryItem = ({ delivery}) => {
         <Row>    
             <Column>{delivery.id}</Column>
             <Column>{petitioner.name}</Column>
-            <Column>{state ? "Cerrado":"Pendiente"}</Column>
+            <Column>{isComplete ? "Cerrado":"Pendiente"}</Column>
             <Column>
                 <ButtonContainer width="100%" margin=" 0" justifyContent="center">
                     <ActionButton marginRight={"1rem"}  icon={"fas fa-eye"} text={"ver detalles"} action={changeStateModal}/>
                     <ActionButton marginRight={"1rem"}  icon={"fas fa-edit"} text={"Editar"} action={goToEdit}/>
-                    <ActionButton disabled={state?true:false} icon={"fas fa-times"} text={"Cerrar domicilio"} action={closeDelivery}/>
+                    <ActionButton disabled={isComplete?true:false} icon={"fas fa-times"} text={isComplete?"Domicilio cerrado":"Cerrar domicilio"} action={closeDelivery}/>
                 </ButtonContainer>
         
             <Modal closeFunction={changeStateModal} reference={ModalReference}>
