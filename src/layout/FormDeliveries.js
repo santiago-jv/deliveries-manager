@@ -40,7 +40,6 @@ const FormDeliveries = (props) => {
             try {
                 const responseDelivery = await  getDelivery(id)
 
-                console.log(responseDelivery.data);
                 setDeliveryData(responseDelivery.data)
                 setPetitionerData(responseDelivery.data.petitioner)
                 setReceiverData(responseDelivery.data.receiver)

@@ -39,7 +39,6 @@ const FormLogIn = () => {
         if(mounted){
           const response = await login(formLogIn)
           localStorage.setItem('token',  response.data.token)
-          console.log(response.data);
           toast.success("Bienvenido " + response.data.admin.name)
           dispatch({type:"START_SESSION",value:response.data.admin})
           history.push('/deliveries')

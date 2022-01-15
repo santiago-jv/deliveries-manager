@@ -4,7 +4,7 @@ import ActionButton from '../components/ActionButton'
 import DeliveryItem from '../components/DeliveryItem'
 import Loader from '../layout/Loader'
 import { getDeliveries, paginateDeliveries } from '../services/http-deliveries'
-import { Table, Thead, Row, Column, Tbody,Message } from "../styles/commons.styles"
+import { Table, Thead, Row, Column, Tbody,Message, Container } from "../styles/commons.styles"
 import { ButtonContainer } from '../styles/components/ActionButton.styles'
 
 const DeliveriesTable = () => {
@@ -16,7 +16,7 @@ const DeliveriesTable = () => {
     const [filter, setFilter] = useState("todos")
     const changeFilter = (type)=> {
         setFilter(type)
-        retrieveDeliveries()
+        retrieveDeliveries(type)
     }
 
     const handlePageClick = ({ selected: selectedPage }) => {
@@ -24,7 +24,7 @@ const DeliveriesTable = () => {
         setCurrentPage(selectedPage);
     };
     
-    const retrieveDeliveries =  useCallback(async () => {
+    const retrieveDeliveries =  useCallback(async (type) => {
         setLoading(true)
         
         if(!quantity) {   
@@ -39,12 +39,12 @@ const DeliveriesTable = () => {
         try {
             const responseDeliveries  = await paginateDeliveries(currentPage )
 
-            if(filter === "todos") {
+            if(type === "todos") {
                 setDeliveries(responseDeliveries.data)
-            }else if(filter === "pendiente") {
+            }else if(type === "pendiente") {
                 setDeliveries(responseDeliveries.data.filter(delivery => !delivery.isComplete))
             }
-            else if(filter === "cerrado"){
+            else if(type === "cerrado"){
                 setDeliveries(responseDeliveries.data.filter(delivery => delivery.isComplete))
             }
         } catch (error) {
@@ -52,14 +52,14 @@ const DeliveriesTable = () => {
         }
 
         setLoading(false)
-    }, [currentPage,quantity,filter],)
+    }, [currentPage,quantity],)
 
     useEffect(() => {
         retrieveDeliveries()
     }, [retrieveDeliveries])
 
     return( 
-        <>     
+        <Container>     
         <ButtonContainer margin={"1rem auto"} width={"90%"}>
             <ActionButton bg={filter==="todos"&&'#ffa460'} marginRight={"1rem"} marginIcon={'0'} text={"Todos"} action={()=>changeFilter("todos")}></ActionButton>
             <ActionButton bg={filter==="pendiente"&&'#ffa460'} marginRight={"1rem"} marginIcon={'0'} text={"Pendientes"} action={()=>changeFilter("pendiente")}> </ActionButton>
@@ -68,7 +68,6 @@ const DeliveriesTable = () => {
         {loading?<Loader/> : 
                 
             deliveries.length>0?
-            <>
                 <Table>
                     <Thead>
                         <Row>
@@ -86,16 +85,17 @@ const DeliveriesTable = () => {
                 
                 </Table>
                 
-                </>
+     
                 
-                :   <Message>
-                {filter==="todos" ? 
-                "No hay domicilios añadidos."
-                
-                :
-                "No hay datos con el filtro "+ filter + "."
-            }
-            </Message> 
+                :  
+                <Message>
+                    {filter==="todos" ? 
+                    "No hay domicilios añadidos."
+                    
+                    :
+                    "No hay datos con el filtro "+ filter + "."
+                    }
+                </Message> 
         }
   
        {deliveries.length > 0 &&  <ReactPaginate
@@ -114,7 +114,7 @@ const DeliveriesTable = () => {
             containerClassName={'pageContainer'}
         ></ReactPaginate>}
 
-        </>
+        </Container>
 
     )
   

@@ -22,7 +22,6 @@ const AppRouter = () => {
             dispatch({type:'START_SESSION', value:response.data.admin})
             history.push('/deliveries')
         } catch (error) {
-            console.log(error.response)
         }
         setChecking(false)
     },

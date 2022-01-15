@@ -3,7 +3,7 @@ import ReactPaginate from 'react-paginate'
 import Loader from '../layout/Loader'
 import MessengerItem from '../components/MessengerItem'
 import { getMessengers, paginateMessengers } from '../services/http-messengers'
-import { Table, Thead, Row, Column, Tbody, Message } from "../styles/commons.styles"
+import { Table, Thead, Row, Column, Tbody, Message,Container } from "../styles/commons.styles"
 
 const MessengersTable = () => {
     const [messengers, setMessengers] = useState([])
@@ -49,6 +49,7 @@ const MessengersTable = () => {
     <> 
         {messengers.length > 0 ?
             <>
+            <Container >
             <Table>
                 <Thead>
                     <Row>
@@ -69,23 +70,24 @@ const MessengersTable = () => {
                 </Tbody>
             
             </Table>
-            {messengers.length > 0 &&  <ReactPaginate
-                    pageCount={Math.ceil(quantity/messengersPerPage)
+                {messengers.length > 0 &&  <ReactPaginate
+                        pageCount={Math.ceil(quantity/messengersPerPage)
+                        }
+                        onPageChange={handlePageClick}
+                        previousLabel={<i className="fas fa-chevron-left"></i>}
+                        nextLabel={<i className="fas fa-chevron-right"></i>}
+                        activeClassName={'active'}
+                        pageClassName={'page'}
+                        activeLinkClassName={'activeLink'}
+                        pageLinkClassName={'linkPage'}
+                        nextLinkClassName={"nextPage"}
+                        previousClassName={'page'}
+                        nextClassName={'page'}
+                        previousLinkClassName={'previousPage'}
+                        containerClassName={'pageContainer'}
+                        ></ReactPaginate>
                     }
-                    onPageChange={handlePageClick}
-                    previousLabel={<i className="fas fa-chevron-left"></i>}
-                    nextLabel={<i className="fas fa-chevron-right"></i>}
-                    activeClassName={'active'}
-                    pageClassName={'page'}
-                    activeLinkClassName={'activeLink'}
-                    pageLinkClassName={'linkPage'}
-                    nextLinkClassName={"nextPage"}
-                    previousClassName={'page'}
-                    nextClassName={'page'}
-                    previousLinkClassName={'previousPage'}
-                    containerClassName={'pageContainer'}
-                ></ReactPaginate>
-                }
+            </Container>
             </>
             :
             <>

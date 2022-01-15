@@ -49,12 +49,12 @@ const Profile = styled.div`
     align-items: center;
     justify-content: center;
     margin-left:4rem;
+   
 `;
 const ProfileInfo = styled.div`
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    display: none;
+    display:none;
+    flex-direction:column;
+    align-items:center;
     position: absolute;
     bottom:-15.5rem;
     right:-6rem;
@@ -62,6 +62,8 @@ const ProfileInfo = styled.div`
     padding:2rem 3rem;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,.3);
     border-radius:.4rem;
+    width:100vw;
+    max-width:400px;
     z-index: 1;
     ${Profile}:hover & {
         display: flex;
